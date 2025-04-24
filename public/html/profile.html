@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e9ecef;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .profile-container {
+            max-width: 400px;
+            margin: auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .profile-header {
+            margin-bottom: 20px;
+        }
+        
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid #007bff;
+            margin-bottom: 10px;
+        }
+        
+        .username {
+            font-size: 24px;
+            margin: 0;
+            color: #343a40;
+        }
+        
+        .profile-info {
+            margin-top: 20px;
+            text-align: left;
+        }
+        
+        .profile-info p {
+            margin: 5px 0;
+            color: #495057;
+        }
+        
+        .profile-actions {
+            margin-top: 20px;
+        }
+        
+        .login-button, .logout-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            margin: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .login-button:hover, .logout-button:hover {
+            background-color: #0056b3;
+        }
+        a{
+            text-decoration: none;
+            color: white;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 50px;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            margin: 0px;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        .logo img {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            margin-right: 10px;
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        nav ul li {
+            margin: 0 15px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        nav a{
+            color: black;
+            text-decoration: none;
+        }
+        nav ul li a:hover{
+            color: #ffcc00;
+        }
+        .intro {
+            padding: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .intro h1 {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+        .intro p {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        .btn {
+            background: #ffcc00;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            color: black;
+            transition: 0.1s;
+        }
+        .btn:hover {
+            background: #ff9900;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: radial-gradient(#fff,#ffd6d6);
+            color: white;
+            text-align: center;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <img src="../images/app-logo.png" alt="Logo">
+            <h2>Quizz</h2>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="create.html">Create</a></li>
+                <li><a href="leaderboard.html">Leaderboard</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <!-- <li ><a id="status-change" href="html/signin.html">Sign In</a></li> -->
+            </ul>
+        </nav>
+    </div>
+    <div class="profile-container">
+        <div class="profile-header">
+            <img src="../images/guest.png" alt="Profile Picture" class="profile-pic">
+            <h1 class="username">Guest</h1>
+        </div>
+        <div class="profile-info">
+            <p><strong>Full Name:</strong>Guest</p>
+            <p><strong>Email:</strong> guest@example.com</p>
+            <p><strong>Age:</strong> 16</p>
+        </div>
+        <div class="profile-actions">
+            <button class="login-button"><a href="signin.html">Login
+            </a></button>
+            <button class="logout-button">Logout</button>
+        </div>
+    </div>
+    <script>
+const username = localStorage.getItem('userName');
+const email = localStorage.getItem('userEmail');
+//const loginButton = document.getElementById('login-button').addEventListener('click',()=>{})
+
+// If no user is logged in, set to default values
+if (!username || !email) {
+    document.querySelector('.username').textContent = 'Guest';
+    document.querySelector('.profile-info').innerHTML = `
+        <p><strong>Full Name:</strong> Guest</p>
+        <p><strong>Email:</strong> guest@example.com</p>
+        <p><strong>Age:</strong> 16</p>
+    `;
+} else {
+    // Update DOM with user details from localStorage
+    document.querySelector('.username').textContent = username;
+    document.querySelector('.profile-info').innerHTML = `
+        <p><strong>Full Name:</strong> ${username}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Age:</strong> 16</p>
+    `;
+}
+
+// Logout functionality with redirect
+document.querySelector('.logout-button').addEventListener('click', () => {
+    // Clear user data from localStorage
+    localStorage.removeItem('userName');
+    localStorage.removeItem('userEmail');
+    
+    // Redirect to homepage after logout, using replace to avoid back history
+    window.location.replace('/index.html');
+});
+
+    </script>
+    <script>
+        document.getElementById('login-button').addEventListener('click', function (event) {
+          event.preventDefault();
+      
+          const email = document.querySelector('input[type="text"]').value;
+          const password = document.querySelector('input[type="password"]').value;
+      
+          if (!email || !password) {
+            alert('Please enter email and password');
+            return;
+          }
+      
+          // Send the login request to the backend
+          fetch('/signin', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.message === 'Login successful') {
+              // Store the user's username or email in localStorage for access on the profile page
+              localStorage.setItem('userName', data.username);
+              localStorage.setItem('userEmail', data.email);
+              document.getElementById('user-name').textContent = data.username;
+            // document.getElementById('status-change').textContent = "Sign Out"
+              // Redirect to profile page
+              window.location.href = '/profile.html';
+            } else {
+                document.getElementById('user-name').textContent = "Guest!";
+              alert(data.message); // Display error message from backend
+            }
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+        });
+      </script>
+    
+    
+</body>
+</html>

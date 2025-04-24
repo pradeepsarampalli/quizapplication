@@ -1,0 +1,123 @@
+[
+    {
+      "title": "ADSJ",
+      "questions": [
+        {
+          "question": "Which data structure uses LIFO order?",
+          "options": ["Queue", "Stack", "Array", "Tree"],
+          "answer": "Stack"
+        },
+        {
+          "question": "What is the time complexity of binary search?",
+          "options": ["O(n)", "O(n log n)", "O(log n)", "O(1)"],
+          "answer": "O(log n)"
+        },
+        {
+          "question": "Which data structure is used in BFS?",
+          "options": ["Stack", "Queue", "Array", "Heap"],
+          "answer": "Queue"
+        },
+        {
+          "question": "Which traversal gives nodes in ascending order in BST?",
+          "options": ["Preorder", "Inorder", "Postorder", "Level Order"],
+          "answer": "Inorder"
+        },
+        {
+          "question": "What is the height of a balanced binary tree with n nodes?",
+          "options": ["O(log n)", "O(n)", "O(1)", "O(n log n)"],
+          "answer": "O(log n)"
+        }
+      ]
+    },
+    {
+      "title": "DBMS",
+      "questions": [
+        {
+          "question": "Which language is used to create and modify database schema?",
+          "options": ["DML", "DDL", "DCL", "TCL"],
+          "answer": "DDL"
+        },
+        {
+          "question": "What is normalization in DBMS?",
+          "options": ["Data backup", "Data encryption", "Reducing redundancy", "Increasing redundancy"],
+          "answer": "Reducing redundancy"
+        },
+        {
+          "question": "Which key uniquely identifies each record?",
+          "options": ["Primary key", "Foreign key", "Candidate key", "Composite key"],
+          "answer": "Primary key"
+        },
+        {
+          "question": "Which of the following is a non-relational database?",
+          "options": ["MySQL", "MongoDB", "PostgreSQL", "Oracle"],
+          "answer": "MongoDB"
+        },
+        {
+          "question": "What does ACID stand for?",
+          "options": ["Atomicity, Consistency, Isolation, Durability", "Accuracy, Consistency, Isolation, Durability", "Atomicity, Clarity, Integrity, Durability", "Atomicity, Connectivity, Isolation, Durability"],
+          "answer": "Atomicity, Consistency, Isolation, Durability"
+        }
+      ]
+    },
+    {
+      "title": "OS",
+      "questions": [
+        {
+          "question": "Which of the following is not an OS?",
+          "options": ["Windows", "Linux", "Oracle", "MacOS"],
+          "answer": "Oracle"
+        },
+        {
+          "question": "What is the function of an OS?",
+          "options": ["Manage hardware", "Provide UI", "Control software", "All of the above"],
+          "answer": "All of the above"
+        },
+        {
+          "question": "What is the process state when it is waiting for an event?",
+          "options": ["Running", "Waiting", "Ready", "Terminated"],
+          "answer": "Waiting"
+        },
+        {
+          "question": "Which algorithm avoids starvation?",
+          "options": ["FIFO", "Round Robin", "SJF", "LIFO"],
+          "answer": "Round Robin"
+        },
+        {
+          "question": "Which is used for inter-process communication?",
+          "options": ["Pipes", "Threads", "Semaphores", "All of the above"],
+          "answer": "All of the above"
+        }
+      ]
+    },
+    {
+      "title": "DAA",
+      "questions": [
+        {
+          "question": "Which algorithm uses divide and conquer?",
+          "options": ["Bubble sort", "Insertion sort", "Merge sort", "Linear search"],
+          "answer": "Merge sort"
+        },
+        {
+          "question": "What is the worst-case complexity of Quick Sort?",
+          "options": ["O(n)", "O(n^2)", "O(log n)", "O(n log n)"],
+          "answer": "O(n^2)"
+        },
+        {
+          "question": "Which is a greedy algorithm?",
+          "options": ["Dijkstra's", "Bellman-Ford", "Floyd-Warshall", "DFS"],
+          "answer": "Dijkstra's"
+        },
+        {
+          "question": "What is the complexity of matrix multiplication using Strassen’s algorithm?",
+          "options": ["O(n^2)", "O(n^2.81)", "O(n^3)", "O(n log n)"],
+          "answer": "O(n^2.81)"
+        },
+        {
+          "question": "Which problem does dynamic programming solve efficiently?",
+          "options": ["Traveling Salesman", "Sorting", "Searching", "File I/O"],
+          "answer": "Traveling Salesman"
+        }
+      ]
+    }
+  ]
+  

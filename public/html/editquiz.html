@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Quiz</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f5f7fa;
+      display: flex;
+      justify-content: center;
+      align-items: start;
+      min-height: 100vh;
+      margin: 0;
+      padding: 2rem;
+    }
+
+    #editForm {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 700px;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .question-block {
+      border: 1px solid #ccc;
+      padding: 1rem;
+      border-radius: 8px;
+      background: #f9f9f9;
+      margin-bottom: 1rem;
+    }
+
+    input, textarea {
+      padding: 0.8rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      width: 100%;
+      margin: 0.3rem 0;
+      box-sizing: border-box;
+    }
+
+    button {
+      background: #4a90e2;
+      color: white;
+      padding: 0.8rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 1rem;
+    }
+
+    button:hover {
+      background: #357bd8;
+    }
+
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    .add-btn {
+      background: #34a853;
+    }
+
+    .add-btn:hover {
+      background: #2c8a45;
+    }
+  </style>
+</head>
+<body>
+
+  <form id="editForm">
+    <h2>Edit Quiz</h2>
+    <input type="text" id="title" required placeholder="Quiz Title">
+    <div id="questionsContainer"></div>
+    <button type="button" class="add-btn" onclick="addQuestionBlock()">+ Add Question</button>
+    <button type="submit">Save</button>
+  </form>
+
+  <script>
+    const index = new URLSearchParams(location.search).get('index');
+    const container = document.getElementById('questionsContainer');
+
+    function createQuestionBlock(question = {}, idx = '') {
+      const block = document.createElement('div');
+      block.className = 'question-block';
+      block.innerHTML = `
+        <textarea placeholder="Question" name="question" required>${question.question || ''}</textarea>
+        <input type="text" placeholder="Option 1" name="option1" value="${question.options?.[0] || ''}">
+        <input type="text" placeholder="Option 2" name="option2" value="${question.options?.[1] || ''}">
+        <input type="text" placeholder="Option 3" name="option3" value="${question.options?.[2] || ''}">
+        <input type="text" placeholder="Option 4" name="option4" value="${question.options?.[3] || ''}">
+        <input type="text" placeholder="Answer" name="answer" value="${question.answer || ''}">
+      `;
+      container.appendChild(block);
+    }
+
+    function addQuestionBlock() {
+      createQuestionBlock();
+    }
+
+    fetch(`/quiz/${index}`)
+      .then(res => res.json())
+      .then(({ quiz }) => {
+        document.getElementById('title').value = quiz.title;
+        quiz.questions.forEach((q, i) => createQuestionBlock(q, i));
+      });
+
+    document.getElementById('editForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const title = document.getElementById('title').value;
+      const questionBlocks = container.querySelectorAll('.question-block');
+
+      const questions = Array.from(questionBlocks).map(block => {
+        const inputs = block.querySelectorAll('input');
+        const textarea = block.querySelector('textarea');
+        return {
+          question: textarea.value,
+          options: Array.from(inputs).slice(0, 4).map(input => input.value).filter(opt => opt.trim() !== ''),
+          answer: inputs[4].value
+        };
+      });
+
+      const updatedQuiz = { title, questions };
+
+      const res = await fetch(`/editquiz/${index}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedQuiz)
+      });
+
+      const result = await res.json();
+      alert(result.message);
+      window.location.href = '/managequiz.html';
+    });
+  </script>
+
+</body>
+</html>

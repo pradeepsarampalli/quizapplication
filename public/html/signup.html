@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: verdana;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center; 
+            background: linear-gradient(to right, #e6d698, #f0c29a);
+            height: 100vh;
+            overflow: hidden;
+            margin: 0px;
+        }
+        .login{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: baseline;
+            padding: 20px;
+            width: 350px;
+            height: fit-content;
+            border-radius: 10px;
+            background-color: #ffffffda;
+        }
+        h1{
+            color: rgb(64, 62, 62);
+            font-size: 40px;
+        }
+        .app-logo{
+            display: flex;
+            justify-content: left;
+            align-items: center;
+        }
+        .app-logo img{
+            width: 55px;
+            height: 50px;
+            margin-right: 5px;
+            border-radius: 10px;
+        }
+        .details{
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            width: 95%;
+        }
+        .details input{
+            height: 33px;
+            outline: none;
+            border: none;
+            border-bottom: 1px solid gray;
+            margin-top: 8px;
+            margin-bottom: 10px;
+            background-color: transparent;
+        }
+        .details p{
+            font-size: 12px;
+        }
+        .details a{
+            font-size: 12px;
+            cursor: pointer;
+        }
+        .details button{
+            font-size:15px;
+            margin-top: 10px;
+            width: 80px;
+            padding: 5px 3px;
+            cursor: pointer;
+            background-color:  #f5bc87;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        .more-options{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-left: 0px;
+        }
+        .more-options p{
+            margin: 0px;
+            margin-top: 10px;
+            font-size: 12px;
+        }
+        .more-options img{
+            width: 30px;
+            height: 30px;
+            margin-top: 10px;
+            margin-right: 20px;
+            cursor: pointer;
+        }
+        #login{
+            align-self: flex-end;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sign Up</h1>
+    <form id="signup-form" class="login">
+        <div class="app-logo">
+            <img src="../images/app-logo.png" alt="app-logo">
+            <p>Quiz Application</p>
+        </div>
+        <div class="details">
+            <input type="text" id="username" placeholder="Fullname" required>
+            <input type="email" id="email" placeholder="Email or Phone" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <input type="password" id="confirm-password" placeholder="Confirm Password" required>
+            <p>Have an account? <a href="signin.html">Sign in</a></p>
+            <button id="signup-btn" type="submit">Sign Up</button>
+        </div>
+        <div class="more-options">
+            <p>Continue with :</p>
+            <div>
+                <a><img src="../images/google.png" alt="Google"></a>
+                <a><img src="../images/facebook.png" alt="Facebook"></a>
+            </div>
+        </div>
+    </form>
+    <script>
+        const form = document.getElementById('signup-form');
+        
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();  // Prevent default form submission
+
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            // Create user data object
+            const userData = { username, email, password, confirmPassword };
+
+            // Send POST request to backend
+            fetch('http://localhost:3000/signup', {  // Use full URL to avoid potential issues
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(userData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === 'Sign-up successful') {
+                    alert('Sign-up successful!');
+                    window.location.href = 'signin.html';  // Redirect to sign-in page
+                } else {
+                    alert(data.message);  // Show error message
+                }
+            })
+            .catch(error => alert('Error: ' + error.message));
+        });
+    </script>
+</body>
+</html>

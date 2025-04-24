@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Attempt Quiz</title>
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f7fc;
+        margin: 0;
+        padding: 0;
+    }
+
+    .quiz-container {
+        max-width: 800px;
+        margin: 50px auto;
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .quiz-header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .quiz-header h1 {
+        font-size: 2.5em;
+        color: #333;
+    }
+
+    #quiz-content {
+        margin-bottom: 20px;
+    }
+
+    .answer-options {
+        margin-top: 15px;
+    }
+
+    .answer-options label {
+        display: block;
+        margin: 10px 0;
+        font-size: 1.1em;
+        cursor: pointer;
+        color: #333;
+    }
+
+    .answer-options input[type="radio"] {
+        margin-right: 10px;
+    }
+
+    .navigation-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    .navigation-buttons button,
+    .submit-btn {
+        padding: 12px 20px;
+        font-size: 1em;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .navigation-buttons button:hover,
+    .submit-btn:hover {
+        background-color: #45a049;
+    }
+
+    .submit-btn {
+        width: 100%;
+        margin-top: 30px;
+        background-color: #2196F3;
+    }
+
+    .submit-btn:hover {
+        background-color: #0b7dda;
+    }
+
+    h2 {
+        font-size: 1.8em;
+        margin-bottom: 15px;
+        color: #333;
+    }
+
+    .quiz-container p {
+        text-align: center;
+        font-size: 1.2em;
+        color: #888;
+    }
+
+    .submit-btn:disabled {
+        background-color: #e0e0e0;
+        cursor: not-allowed;
+    }
+</style>
+</head>
+<body>
+    <div class="quiz-container">
+        <header class="quiz-header">
+            <h1>Quiz Title: General Knowledge</h1>
+        </header>
+        <div id="quiz-content">
+            <!-- Quiz questions will be loaded here -->
+        </div>
+        <div class="navigation-buttons">
+            <button class="prev-btn">Previous</button>
+            <button class="next-btn">Next</button>
+        </div>
+        <button class="submit-btn">Submit Quiz</button>
+    </div>
+
+    <!-- <script>
+        let currentQuestionIndex = 0;
+        let currentQuiz = [];
+        let selectedAnswers = [];
+
+        // Function to fetch questions dynamically
+        async function loadQuiz() {
+            try {
+                const response = await fetch('/api/questions');
+                const data = await response.json();
+                if (data.length > 0) {
+                    currentQuiz = data[1].questions; // Assuming we only need the first quiz from the JSON
+                    selectedAnswers = new Array(currentQuiz.length).fill(null);
+                    renderQuestion(currentQuiz[currentQuestionIndex]);
+                } else {
+                    document.getElementById('quiz-content').innerHTML = 'No quiz data available.';
+                }
+            } catch (error) {
+                console.error('Error loading quiz:', error);
+                document.getElementById('quiz-content').innerHTML = 'Failed to load quiz.';
+            }
+        }
+
+        // Function to render the current question
+        function renderQuestion(questionObj) {
+            const questionContainer = document.getElementById('quiz-content');
+            questionContainer.innerHTML = `
+                <h2 id="question">${questionObj.question}</h2>
+                <div class="answer-options">
+                    ${questionObj.options.map((option, index) => `
+                        <label>
+                            <input type="radio" name="answer" value="${option}" ${selectedAnswers[currentQuestionIndex] === option ? 'checked' : ''}> ${String.fromCharCode(65 + index)}) ${option}
+                        </label>
+                    `).join('')}
+                </div>
+            `;
+
+            // Add event listener to store selected answers
+            document.querySelectorAll('input[name="answer"]').forEach(input => {
+                input.addEventListener('change', () => {
+                    selectedAnswers[currentQuestionIndex] = input.value;
+                });
+            });
+        }
+
+        // Navigation buttons
+        document.querySelector('.prev-btn').addEventListener('click', () => {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                renderQuestion(currentQuiz[currentQuestionIndex]);
+            }
+        });
+
+        document.querySelector('.next-btn').addEventListener('click', () => {
+            if (currentQuestionIndex < currentQuiz.length - 1) {
+                currentQuestionIndex++;
+                renderQuestion(currentQuiz[currentQuestionIndex]);
+            }
+        });
+
+        document.querySelector('.submit-btn').addEventListener('click', () => {
+            let score = 0;
+            currentQuiz.forEach((q, index) => {
+                if (selectedAnswers[index] === q.answer) {
+                    score++;
+                }
+            });
+            alert(`You scored ${score} out of ${currentQuiz.length}`);
+            window.location.href='index.html'
+        });
+
+        // Load the quiz on page load
+        window.onload = loadQuiz;
+    </script> -->
+    <script>
+        let currentQuestionIndex = 0;
+        let currentQuiz = [];
+        let selectedAnswers = [];
+    
+        // Function to get the quiz name from the URL
+        function getQuizName() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('quiz');
+        }
+    
+        // Function to fetch questions dynamically based on the quiz name
+        async function loadQuiz() {
+            const quizName = getQuizName();
+            try {
+                const response = await fetch('/api/questions');
+                const data = await response.json();
+    
+                // Find the specific quiz based on the quiz name from URL
+                const quiz = data.find(q => q.title === quizName);
+    
+                if (quiz) {
+                    currentQuiz = quiz.questions;
+                    selectedAnswers = new Array(currentQuiz.length).fill(null);
+                    renderQuestion(currentQuiz[currentQuestionIndex]);
+                } else {
+                    document.getElementById('quiz-content').innerHTML = 'Quiz not found.';
+                }
+            } catch (error) {
+                console.error('Error loading quiz:', error);
+                document.getElementById('quiz-content').innerHTML = 'Failed to load quiz.';
+            }
+        }
+    
+        // Function to render the current question
+        function renderQuestion(questionObj) {
+            const questionContainer = document.getElementById('quiz-content');
+            questionContainer.innerHTML = `
+                <h2 id="question">${questionObj.question}</h2>
+                <div class="answer-options">
+                    ${questionObj.options.map((option, index) => `
+                        <label>
+                            <input type="radio" name="answer" value="${option}" ${selectedAnswers[currentQuestionIndex] === option ? 'checked' : ''}> ${String.fromCharCode(65 + index)}) ${option}
+                        </label>
+                    `).join('')}
+                </div>
+            `;
+    
+            // Add event listener to store selected answers
+            document.querySelectorAll('input[name="answer"]').forEach(input => {
+                input.addEventListener('change', () => {
+                    selectedAnswers[currentQuestionIndex] = input.value;
+                });
+            });
+        }
+    
+        // Navigation buttons
+        document.querySelector('.prev-btn').addEventListener('click', () => {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                renderQuestion(currentQuiz[currentQuestionIndex]);
+            }
+        });
+    
+        document.querySelector('.next-btn').addEventListener('click', () => {
+            if (currentQuestionIndex < currentQuiz.length - 1) {
+                currentQuestionIndex++;
+                renderQuestion(currentQuiz[currentQuestionIndex]);
+            }
+        });
+    
+        document.querySelector('.submit-btn').addEventListener('click', async () => {
+            let score = 0;
+            currentQuiz.forEach((q, index) => {
+                if (selectedAnswers[index] === q.answer) {
+                    score++;
+                }
+            });
+        
+            const quizName = getQuizName();
+            const dataToSend = {
+                //newly added
+                name:localStorage.getItem('userName'),
+                quiz: quizName,
+                score: score,
+                timestamp: new Date().toISOString()
+            };
+        
+            try {
+                const response = await fetch('/api/save-score', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dataToSend)
+                });
+        
+                const result = await response.text();
+                alert(`You scored ${score} out of ${currentQuiz.length}\n${result}`);
+                window.location.href = 'index.html';
+            } catch (error) {
+                console.error('Error sending score:', error);
+                alert('Error saving your score.');
+            }
+        });
+        
+        // Load the quiz on page load
+        window.onload = loadQuiz;
+    </script>
+    
+</body>
+</html>

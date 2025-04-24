@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Quiz Leaderboard</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .leaderboard-container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        
+        .leaderboard-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .leaderboard-header h1 {
+            color: #333;
+        }
+        
+        .user-profile {
+            background: #e7f3fe;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .user-profile h2 {
+            margin: 5px 0;
+            color: #007bff;
+        }
+        
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .leaderboard-table th, .leaderboard-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .leaderboard-table th {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        .leaderboard-table tr:hover {
+            background-color: #f1f1f1;
+        }
+        
+        @media (max-width: 600px) {
+            .leaderboard-table th, .leaderboard-table td {
+                padding: 8px;
+            }
+        }
+            .header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 15px 50px;
+                background: rgba(0, 0, 0, 0.2);
+                backdrop-filter: blur(10px);
+                margin: 0px;
+            }
+            .logo {
+                display: flex;
+                align-items: center;
+            }
+            .logo img {
+                width: 50px;
+                height: 50px;
+                border-radius: 10px;
+                margin-right: 10px;
+            }
+            nav ul {
+                display: flex;
+                list-style: none;
+            }
+            nav ul li {
+                margin: 0 15px;
+                cursor: pointer;
+                font-weight: bold;
+                transition: 0.3s;
+            }
+            nav a{
+                color: black;
+                text-decoration: none;
+            }
+            nav ul li a:hover{
+                color: #ffcc00;
+            }
+            .intro {
+                padding: 50px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+            }
+            .intro h1 {
+                font-size: 50px;
+                margin-bottom: 20px;
+            }
+            .intro p {
+                font-size: 20px;
+                margin-bottom: 20px;
+            }
+            .btn {
+                background: #ffcc00;
+                padding: 10px 20px;
+                border-radius: 20px;
+                font-size: 18px;
+                font-weight: bold;
+                text-decoration: none;
+                color: black;
+                transition: 0.1s;
+            }
+            .btn:hover {
+                background: #ff9900;
+            }
+            body {
+                font-family: Arial, sans-serif;
+                background: radial-gradient(#fff,#ffd6d6);
+                color: white;
+                text-align: center;
+                color: black;
+            }
+            .container {
+                max-width: 600px;
+                background: white;
+                padding: 20px;
+                margin: auto;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+            h2 {
+                text-align: center;
+            }
+            .form-group {
+                margin-bottom: 15px;
+            }
+            label {
+                font-weight: bold;
+            }
+            input, textarea, button {
+                width: 100%;
+                padding: 10px;
+                margin-top: 5px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+            }
+            button {
+                background: #28a745;
+                color: white;
+                border: none;
+                cursor: pointer;
+            }
+            button:hover {
+                background: #218838;
+            }
+        </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <img src="../images/app-logo.png" alt="Logo">
+            <h2>Quizz</h2>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="create.html">Create</a></li>
+                <li><a href="leaderboard.html">Leaderboard</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <!-- <li ><a id="status-change" href="html/signin.html">Sign In</a></li> -->
+            </ul>
+        </nav>
+    </div>
+    <div class="leaderboard-container">
+        <header class="leaderboard-header">
+            <h1>Quiz Leaderboard</h1>
+        </header>
+        <div class="user-profile">
+            <h2>User Name :<span id="user-name">---</span></h2>
+            <h2>Your Rank: <span id="user-rank">---</span></h2>
+            <h2>Your Score: <span id="user-score">0</span></h2>
+        </div>
+        <table class="leaderboard-table">
+            <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Name</th>
+                    <th>Subject</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Varun</td>
+                    <td>DAA</td>
+                    <td>2000</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Praneeth</td>
+                    <td>DAA</td>
+                    <td>1800</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Charan</td>
+                    <td>DAA</td>
+                    <td>1700</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Pradeep</td>
+                    <td>ADSJ</td>
+                    <td>1600</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Vansh</td>
+                    <td>OS</td>
+                    <td>1500</td>
+                </tr>
+                <!-- Add more rows as needed -->
+            </tbody>
+        </table>
+    </div>
+   <!-- Keep your existing HTML and styles -->
+<script>
+    const userName = document.getElementById("user-name");
+    const currentUser = localStorage.getItem('userName');
+    userName.textContent = currentUser;
+
+    async function loadLeaderboard() {
+        try {
+            const response = await fetch('/scores.json');
+            const allScores = await response.json();
+            console.log(allScores)
+
+           // const quizToShow = "DAA"; // Change this as needed
+           // const filtered = allScores.filter(entry => entry.quiz === quizToShow && entry.name);
+
+            // Sort by score (descending)
+            const sorted = allScores.sort((a, b) => b.score - a.score);
+
+            const leaderboardTable = document.querySelector('.leaderboard-table tbody');
+            leaderboardTable.innerHTML = ""; // Clear existing rows
+
+            sorted.forEach((user, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${user.name}</td>
+                    <td>${user.quiz}</td>
+                    <td>${user.score}</td>
+                `;
+                leaderboardTable.appendChild(row);
+            });
+
+            // Set current user score and rank
+            const userRank = document.getElementById('user-rank');
+            const userScore = document.getElementById('user-score');
+            const current = sorted.find(u => u.name?.toLowerCase() === currentUser?.toLowerCase());
+
+            if (current) {
+                userRank.textContent = sorted.indexOf(current) + 1;
+                userScore.textContent = current.score;
+            } else {
+                userRank.textContent = 'N/A';
+                userScore.textContent = '0';
+            }
+
+        } catch (error) {
+            console.error('Error loading leaderboard:', error);
+        }
+    }
+
+    window.onload = loadLeaderboard;
+</script>
+
+</body>
+</html>

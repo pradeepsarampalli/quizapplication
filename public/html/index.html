@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Platform</title>
+    <link rel="stylesheet" href="../css/index.css">
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <img src="../images/app-logo.png" alt="Logo">
+            <h2>Quizz</h2>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="create.html">Create</a></li>
+                <li><a href="leaderboard.html">Leaderboard</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <!-- <li ><a id="status-change" href="html/signin.html">Sign In</a></li> -->
+            </ul>
+        </nav>
+    </div>
+    <div class="welcome-user">
+        <div class="welcome-text">
+            <h2>Hi,<span id="user-name"> Guest!</span></h2>
+            <p>Let's make your day productive!!</p>
+        </div>
+        <div class="user-profile">
+            <img src="../images/guest.png" alt="User Profile Picture">
+        </div>
+    </div>
+    <div class="intro">
+        <h1>Test Your Knowledge</h1>
+        <p>Challenge yourself with our exciting quizzes!</p>
+        <a href="#quizzes" class="btn">Explore</a>
+    </div>
+    <h2  id="quizzes">Quiz Tools</h2>
+    <div class="quiz-tools">
+        <div class="card">
+            <h3>Create Quiz</h3>
+            <p>Design custom quizzes for students</p>
+            <button><a href="#">Create</a></button>
+        </div>
+        <div class="card">
+            <h3>Manage Quizzes</h3>
+            <p>Edit and organize existing quizzes</p>
+            <button><a href="managequiz.html">Manage</a></button>
+        </div>
+        <!-- <div class="card">
+            <h3>Analyze Results</h3>
+            <p>Review student performance</p>
+            <button><a href="#">Analyze</a></button>
+        </div> -->
+        <!-- <div class="card">
+            <h3>Challenge a Friend</h3>
+            <p>comapre performance of Friend</p>
+            <button><a href="#">Challenge</a></button>
+        </div> -->
+    </div>
+    <h2>Featured Quizzes</h2>
+    <div class="featured-quizzes">
+        <div class="card">
+            <h3>ADSJ Quiz</h3>
+            <p>Sharpen your math skills</p>
+            <button><a href="attempt.html?quiz=ADSJ">Attempt</a></button>
+        </div>
+        <div class="card">
+            <h3>DAA Quiz</h3>
+            <p>Explore the world of science</p>
+            <button><a href="attempt.html?quiz=DAA">Attempt</a></button>
+        </div>
+        <div class="card">
+            <h3>DBMS Quiz</h3>
+            <p>Test your intelligence</p>
+            <button><a href="attempt.html?quiz=DBMS">Attempt</a></button>
+        </div>
+        <div class="card">
+            <h3>OS Quiz</h3>
+            <p>Test your coding skills</p>
+            <button><a href="attempt.html?quiz=OS">Attempt</a></button>
+        </div>
+    </div>
+    <!-- <h2>Leaderboard</h2> -->
+    <!-- <div class="leaderboard">
+        <div class="card">
+            <h3>Top Player</h3>
+            <p>Praneeth - Score: 100</p>
+        </div>
+        <div class="card">
+            <h3>Top Player</h3>
+            <p>Raghu - Score: 98</p>
+        </div>
+        <div class="card">
+            <h3>Top Player</h3>
+            <p>Shyam - Score: 98</p>
+        </div>
+        <div class="card">
+            <h3>Top Player</h3>
+            <p>Akshay - Score: 98</p>
+        </div>
+    </div> -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 Quiz Platform. All Rights Reserved.</p>
+            <p id="follow-us">Follow us on:
+                <a href="#"><img src="../images/facebook.png" alt="Facebook"></a>
+                <a href="#"><img src="../images/twitter.png" alt="Twitter"></a>
+                <a href="#"><img src="../images/instagram.png" alt="Instagram"></a>
+            </p>
+        </div>
+    </footer>
+    <script>
+        function loadQuizzes() {
+          fetch('/quizzes')
+            .then(res => res.json())
+            .then(quizzes => {
+              const container = document.querySelector('.featured-quizzes');
+      
+              quizzes.forEach(quiz => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                  <h3>${quiz.title}</h3>
+                  <p>${quiz.description || "No description"}</p>
+                  <button><a href="#">View</a></button>
+                `;
+                container.appendChild(card);
+              });
+            })
+            .catch(err => console.error("Failed to load quizzes", err));
+        }
+      
+        window.onload = loadQuizzes;
+      </script>
+</body>
+</html>

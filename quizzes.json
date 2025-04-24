@@ -1,0 +1,27 @@
+[
+  {
+    "title": "COA",
+    "questions": [
+      {
+        "question": "What is EEEPROM?",
+        "options": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "answer": "1"
+      },
+      {
+        "question": "what is 2's complement?",
+        "options": [
+          "1's comp + 1",
+          "1's complement",
+          "none",
+          "0"
+        ],
+        "answer": "1"
+      }
+    ]
+  }
+]

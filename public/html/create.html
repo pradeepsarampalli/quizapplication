@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create a Quiz</title>
+    <style>
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 50px;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            margin: 0px;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        .logo img {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            margin-right: 10px;
+        }
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        nav ul li {
+            margin: 0 15px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        nav a{
+            color: black;
+            text-decoration: none;
+        }
+        nav ul li a:hover{
+            color: #ffcc00;
+        }
+        .intro {
+            padding: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .intro h1 {
+            font-size: 50px;
+            margin-bottom: 20px;
+        }
+        .intro p {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        .btn {
+            background: #ffcc00;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            color: black;
+            transition: 0.1s;
+        }
+        .btn:hover {
+            background: #ff9900;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background: radial-gradient(#fff,#ffd6d6);
+            color: white;
+            text-align: center;
+            color: black;
+        }
+        .container {
+            max-width: 600px;
+            background: white;
+            padding: 20px;
+            margin: auto;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #218838;
+        }
+    </style>
+    
+    <script>
+        let editIndex = null;
+
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        function generateQuestions(quiz = null) {
+            let container = document.getElementById('questions-container');
+            container.innerHTML = '';
+            let numQuestions = quiz ? quiz.questions.length : document.getElementById('num-questions').value;
+        
+            for (let i = 1; i <= numQuestions; i++) {
+                let questionDiv = document.createElement('div');
+                questionDiv.classList.add('form-group');
+                let questionText = quiz ? quiz.questions[i - 1].question : '';
+                let options = quiz ? quiz.questions[i - 1].options : ['', '', '', ''];
+                let answer = quiz ? quiz.questions[i - 1].answer : '';
+        
+                questionDiv.innerHTML = `
+                    <label for="question${i}">Question ${i}:</label>
+                    <textarea id="question${i}" name="question${i}" rows="3" required>${questionText}</textarea>
+                    <label>Options:</label>
+                    <input type="text" name="option${i}_1" placeholder="Option 1" required value="${options[0] || ''}">
+                    <input type="text" name="option${i}_2" placeholder="Option 2" required value="${options[1] || ''}">
+                    <input type="text" name="option${i}_3" placeholder="Option 3" value="${options[2] || ''}">
+                    <input type="text" name="option${i}_4" placeholder="Option 4" value="${options[3] || ''}">
+                    <label for="correct${i}">Correct Answer (1-${options.length}):</label>
+                    <input type="number" id="correct${i}" name="correct${i}" min="1" max="${options.length}" required value="${answer}">
+                `;
+                container.appendChild(questionDiv);
+            }
+        }
+        function saveQuizToServer(event) {
+            event.preventDefault();
+            const title = document.getElementById('quiz-title').value;
+            const numQuestions = document.getElementById('num-questions').value;
+            const questions = [];
+            
+            for (let i = 1; i <= numQuestions; i++) {
+                const questionText = document.getElementById(`question${i}`).value;
+                const answer = parseInt(document.getElementById(`correct${i}`).value);
+                const options = [];
+            
+                for (let j = 1; j <= 4; j++) {
+                    const optionInput = document.querySelector(`input[name="option${i}_${j}"]`);
+                    if (optionInput && optionInput.value.trim() !== '') {
+                        options.push(optionInput.value.trim());
+                    }
+                }
+            
+                // Validate correct answer
+                if (answer < 1 || answer > options.length) {
+                    alert(`Question ${i}: Correct answer must be between 1 and ${options.length}`);
+                    return;
+                }
+            
+                questions.push({ 
+                    question: questionText, 
+                    options, 
+                    answer 
+                });
+            }
+            
+            const quiz = { title, questions };
+        
+            // Send the quiz data to the server
+            fetch('/save-quiz', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(quiz)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                window.location.href = 'index.html';  // Redirect back to index after saving
+            })
+            .catch(error => {
+                alert('Error saving quiz!');
+            });
+        }
+        
+    </script>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <img src="../images/app-logo.png" alt="Logo">
+            <h2>Quizz</h2>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="create.html">Create</a></li>
+                <li><a href="leaderboard.html">Leaderboard</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <!-- <li ><a id="status-change" href="html/signin.html">Sign In</a></li> -->
+            </ul>
+        </nav>
+    </div>
+    <br>
+    <br>
+    <div class="container">
+        <h2>Create a Quiz</h2>
+        <form id="quiz-form" onsubmit="saveQuizToServer(event)">
+            <div class="form-group">
+                <label for="quiz-title">Quiz Title:</label>
+                <input type="text" id="quiz-title" name="quiz-title" required>
+            </div>
+            <div class="form-group">
+                <label for="num-questions">Number of Questions:</label>
+                <input type="number" id="num-questions" name="num-questions" min="1" required oninput="generateQuestions()">
+            </div>
+            <div id="questions-container"></div>
+            <button type="submit">Create Quiz</button>
+        </form>
+    </div>
+</body>
+</html>
